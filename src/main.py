@@ -51,23 +51,71 @@ def fetch_localization(path="resources/loc.json"):
     return data
 
 
-def get_character_name(avatar_id, chars, loc, lang="en"):
-    """Resolve an avatarId to a readable character name."""
-    name_hash = chars[str(avatar_id)]["NameTextMapHash"]
+def get_localized_name(name_hash, loc, lang="en"):
+    """Resolve a TextMap hash to a readable localized name."""
     return loc[lang][str(name_hash)]
 
 
+def get_character_name(avatar_id, chars, loc, lang="en"):
+    """Resolve an avatarId to a readable character name."""
+    name_hash = chars[str(avatar_id)]["NameTextMapHash"]
+    return get_localized_name(name_hash, loc, lang)
+
+
+
+
 def main():
+
     uid = 618285856
 
     showcase = fetch_showcase(uid)
     chars = fetch_character_metadata()
     loc = fetch_localization()
 
-    for char in showcase["avatarInfoList"]:
-        avatar_id = char["avatarId"]
-        name = get_character_name(avatar_id, chars, loc)
-        print(name)
+    with open("output.txt", "w", encoding="utf-8") as f:
+
+        for char in showcase["avatarInfoList"]:
+
+            avatar_id = char["avatarId"]
+            name = get_character_name(avatar_id, chars, loc)
+
+            level = char.get("propMap", {}).get("4001", {}).get("val")
+
+            talent_ids = char.get("talentIdList", [])
+            constellation = len(talent_ids)
+
+            refinement = None
+            weapon_name = "No Weapon"
+
+            for equip in char.get("equipList", []):
+
+                if "weapon" in equip:
+                    weapon = equip["weapon"]
+
+                    weapon_name_hash = equip["flat"]["nameTextMapHash"]
+                    weapon_name = get_localized_name(weapon_name_hash, loc)
+
+                    affix_map = weapon.get("affixMap", {})
+
+                    if affix_map:
+                        refinement = next(iter(affix_map.values()))
+
+                    break
+
+            if refinement is not None:
+                weapon_output = f"{weapon_name} R{refinement + 1}"
+            else:
+                weapon_output = weapon_name
+
+            output = f"{name} Lv.{level}, C{constellation}, {weapon_output}"
+
+            # Print to terminal
+            print(output)
+
+            # Save to output.txt
+            f.write(output + "\n")
+
+
 
 
 if __name__ == "__main__":
