@@ -1,4 +1,4 @@
-Amber Lv.90, C6, Skyward Harp R2
-Bennett Lv.90, C6, Freedom-Sworn R1
-Ganyu Lv.90, C0, Amos' Bow R3
-Xingqiu Lv.80, C6, Sacrificial Sword R5
+Amber Lv.90, C6, R2 Skyward Harp, 2pc Bloodstained Chivalry + 2pc Pale Flame
+Bennett Lv.90, C6, R1 Freedom-Sworn, 4pc Noblesse Oblige
+Ganyu Lv.90, C0, R3 Amos' Bow, 4pc Wanderer's Troupe
+Xingqiu Lv.80, C6, R5 Sacrificial Sword, 2pc Emblem of Severed Fate + 2pc Wanderer's Troupe
