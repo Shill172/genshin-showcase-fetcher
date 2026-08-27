@@ -14,40 +14,12 @@ def fetch_showcase(uid):
 
 
 def fetch_character_metadata(path="resources/charbyid.json"):
-    """Load character metadata from disk if cached, otherwise fetch and save it."""
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-
     url = "https://raw.githubusercontent.com/EnkaNetwork/API-docs/refs/heads/master/store/gi/avatars.json"
-    response = requests.get(url)
-
-    if response.status_code != 200:
-        raise Exception(f"Character metadata request failed: {response.status_code}")
-
-    data = response.json()
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4)
-
-    return data
+    return fetch_cached_json(url, path)
 
 def fetch_artifact_metadata(path="resources/relics.json"):
-    """Load artifact/artifact set metadata from disk if cached, otherwise fetch and save it."""
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-
     url = "https://raw.githubusercontent.com/EnkaNetwork/API-docs/refs/heads/master/store/gi/relics.json"
-    response = requests.get(url)
-
-    if response.status_code != 200:
-        raise Exception(f"artifact metadata request failed: {response.status_code}")
-
-    data = response.json()
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4)
-
-    return data
+    return fetch_cached_json(url, path)
 
 def get_artifact_summary(char, artifacts, loc, lang="en"):
     """Count equipped artifact pieces per set, return a label like
@@ -92,22 +64,8 @@ def get_artifact_summary(char, artifacts, loc, lang="en"):
 
 
 def fetch_localization(path="resources/loc.json"):
-    """Load localization data from disk if cached, otherwise fetch and save it."""
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-
     url = "https://raw.githubusercontent.com/EnkaNetwork/API-docs/refs/heads/master/store/gi/locs.json"
-    response = requests.get(url)
-
-    if response.status_code != 200:
-        raise Exception(f"Localization request failed: {response.status_code}")
-
-    data = response.json()
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4)
-
-    return data
+    return fetch_cached_json(url, path)
 
 
 def get_localized_name(name_hash, loc, lang="en"):
@@ -120,7 +78,42 @@ def get_character_name(avatar_id, chars, loc, lang="en"):
     name_hash = chars[str(avatar_id)]["NameTextMapHash"]
     return get_localized_name(name_hash, loc, lang)
 
+def load_etag(etag_path):
+    if os.path.exists(etag_path):
+        with open(etag_path, "r", encoding="utf-8") as f:
+            return f.read().strip()
+    return None
 
+def save_etag(etag_path, etag):
+    with open(etag_path, "w", encoding="utf-8") as f:
+        f.write(etag)
+
+def fetch_cached_json(url, path):
+    etag_path = path + ".etag"
+
+    cached_etag = load_etag(etag_path)
+    headers = {}
+    if cached_etag and os.path.exists(path):
+        headers["If-None-Match"] = cached_etag
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 304: # Nothing changed
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    if response.status_code != 200:
+        raise Exception(f"Request failed: {response.status_code} for {url}")
+
+    data = response.json()
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4)
+
+    new_etag = response.headers.get("ETag")
+    if new_etag:
+        save_etag(etag_path, new_etag)
+
+    return data
 
 def main():
 
