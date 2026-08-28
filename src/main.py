@@ -1,11 +1,16 @@
 """Fetches a player's showcase and prints/saves a formatted summary."""
-
+import argparse
 from enka_client import fetch_showcase, fetch_character_metadata, fetch_localization, fetch_artifact_metadata
 from resolver import get_character_name, get_artifact_summary, get_localized_name
 
+
 def main():
 
-    uid = 618285856
+    parser = argparse.ArgumentParser(description="Fetch and display a Genshin Impact showcase from Enka Network.")
+    parser.add_argument("uid", type=int, help="The player's UID to look up")
+    args = parser.parse_args()
+
+    uid = args.uid
 
     showcase = fetch_showcase(uid)
     chars = fetch_character_metadata()
