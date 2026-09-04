@@ -4,7 +4,21 @@ from enka_client import fetch_showcase, fetch_character_metadata, fetch_localiza
 from resolver import format_character
 
 # Using default values for now since no checkboxes/JS
-DEFAULT_FIELDS = {"level", "constellation", "weapon", "artifact_set"}
+DEFAULT_FIELDS = {
+    "level", 
+    "constellation", 
+    "weapon", 
+    "artifact_set",
+  # "friendship",
+   "talents",
+  # "hp",
+  # "atk",
+  # "def",
+  # "crit",
+  # "er",
+  # "em",
+  # "dmg_bonus"
+}
 
 
 def build_showcase_text(uid, fields=None):
