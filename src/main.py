@@ -1,6 +1,6 @@
 """Fetches a player's showcase and prints/saves a formatted summary."""
 import argparse
-from showcase import build_showcase_text
+from src.showcase import build_showcase_text
 
 
 def main():

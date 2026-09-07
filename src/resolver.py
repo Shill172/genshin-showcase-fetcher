@@ -110,7 +110,7 @@ def get_talents_summary(char, chars):
         final_lvl = base_lvl + extra_lvl
         levels.append(str(final_lvl))
 
-    return f"Talents {'/'.join(levels)}"
+    return "/".join(levels)
 
 
 def get_highest_elemental_dmg(fight_map):
@@ -131,62 +131,81 @@ def get_highest_elemental_dmg(fight_map):
 def format_character(char, chars, loc, artifacts, fields, lang="en"):
     """Build one line of showcase text based on requested fields."""
     avatar_id = char["avatarId"]
-    parts = [get_character_name(avatar_id, chars, loc, lang)]
+    data = {"name": get_character_name(avatar_id, chars, loc, lang)}
     
     fight_map = char.get("fightPropMap", {})
 
     if "level" in fields:
         # Enka propMap key "4001" stores character level
-        level = char.get("propMap", {}).get("4001", {}).get("val")
-        parts.append(f"Lv.{level}")
+        data["level"] = char.get("propMap", {}).get("4001", {}).get("val")
 
     if "constellation" in fields:
-        constellation = len(char.get("talentIdList", []))
-        parts.append(f"C{constellation}")
+        data["constellation"] = len(char.get("talentIdList", []))
 
     if "weapon" in fields:
-        parts.append(get_weapon_output(char, loc, lang))
+        data["weapon"] = get_weapon_output(char, loc, lang)
 
     if "artifact_set" in fields:
-        parts.append(get_artifact_summary(char, artifacts, loc, lang))
+        data["artifact_set"] = get_artifact_summary(char, artifacts, loc, lang)
 
     if "friendship" in fields:
-        friendship = char.get("fetterInfo", {}).get("expLevel", 1)
-        parts.append(f"FLv.{friendship}")
+        data["friendship"] = char.get("fetterInfo", {}).get("expLevel", 1)
 
     if "talents" in fields:
-        parts.append(get_talents_summary(char, chars))
+        data["talents"] = get_talents_summary(char, chars)
 
     # Key 2000 = Max HP, 2001 = ATK, 2002 = DEF
     if "hp" in fields:
-        hp = round(fight_map.get(2000, 0))
-        parts.append(f"HP {hp}")
+        data["hp"] = round(fight_map.get("2000", 0))
 
     if "atk" in fields:
-        atk = round(fight_map.get(2001, 0))
-        parts.append(f"ATK {atk}")
+        data["atk"] = round(fight_map.get("2001", 0))
 
     if "def" in fields:
-        defense = round(fight_map.get(2002, 0))
-        parts.append(f"DEF {defense}")
+        data["defense"] = round(fight_map.get("2002", 0))
 
     if "crit" in fields:
-        crit_rate = fight_map.get(20, 0) * 100
-        crit_dmg = fight_map.get(22, 0) * 100
-        parts.append(f"CRIT {crit_rate:.1f}%/{crit_dmg:.1f}%")
+        crit_rate = fight_map.get("20", 0) * 100
+        crit_dmg = fight_map.get("22", 0) * 100
+        data["crit"] = f"{crit_rate:.1f}%/{crit_dmg:.1f}%"
 
     if "er" in fields:
-        er = fight_map.get(23, 0) * 100
-        parts.append(f"ER {er:.1f}%")
+        data["er"] = f"{fight_map.get("23", 0) * 100:.1f}%"
 
     if "em" in fields:
-        em = round(fight_map.get(28, 0))
-        parts.append(f"EM {em}")
+        data["em"] = round(fight_map.get("28", 0))
 
     if "dmg_bonus" in fields:
         elemental_bonus = get_highest_elemental_dmg(fight_map)
         if elemental_bonus:
-            parts.append(elemental_bonus)
+            data["dmg_bonus"] = elemental_bonus
+
+    return data
+
+FIELD_LABELS = {
+    "level": "Lv.{}",
+    "constellation": "C{}",
+    "weapon": "{}",
+    "artifact_set": "{}",
+    "friendship": "FLv.{}",
+    "talents": "Talents {}",
+    "hp": "HP {}",
+    "atk": "ATK {}",
+    "def": "DEF {}",
+    "crit": "CRIT {}",
+    "er": "ER {}",
+    "em": "EM {}",
+    "dmg_bonus": "{}",
+}
+
+
+def format_character_line(char_data):
+    """Turn one character's resolved dict back into a single display line."""
+    parts = [char_data["name"]]
+
+    for field, label in FIELD_LABELS.items():
+        if field in char_data:
+            parts.append(label.format(char_data[field]))
 
     return ", ".join(parts)
 
