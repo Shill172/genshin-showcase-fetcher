@@ -1,0 +1,17 @@
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+#generate-btn {
+    display: block;
+    margin-top: 16px;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Fields</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+
+    <h1>Character Fields</h1>
+
+    <form id="showcase-form">
+
+        <label>
+            UID:
+            <input type="text" id="uid-input" name="uid">
+        </label>
+
+        <div class="checkbox-group">
+
+            <label>
+                <input type="checkbox" name="level" value="level">
+                Level
+            </label>
+
+            <label>
+                <input type="checkbox" name="constellation" value="constellation">
+                Constellation
+            </label>
+
+            <label>
+                <input type="checkbox" name="weapon" value="weapon">
+                Weapon
+            </label>
+
+            <label>
+                <input type="checkbox" name="artifact_set" value="artifact_set">
+                Artifact Set
+            </label>
+
+            <label>
+                <input type="checkbox" name="friendship" value="friendship">
+                Friendship
+            </label>
+
+            <label>
+                <input type="checkbox" name="talents" value="talents">
+                Talents
+            </label>
+
+            <label>
+                <input type="checkbox" name="hp" value="hp">
+                HP
+            </label>
+
+            <label>
+                <input type="checkbox" name="atk" value="atk">
+                Attack
+            </label>
+
+            <label>
+                <input type="checkbox" name="def" value="def">
+                Defense
+            </label>
+
+            <label>
+                <input type="checkbox" name="crit" value="crit">
+                Crit Rate / Crit Damage
+            </label>
+
+            <label>
+                <input type="checkbox" name="er" value="er">
+                Energy Recharge
+            </label>
+
+            <label>
+                <input type="checkbox" name="em" value="em">
+                Elemental Mastery
+            </label>
+
+            <label>
+                <input type="checkbox" name="dmg_bonus" value="dmg_bonus">
+                Elemental/Physical Damage Bonus
+            </label>
+
+        </div>
+
+        <button type="button" id="generate-btn">Generate Showcase</button>
+
+    </form>
+
+    <script src="/static/script.js"></script>
+
+</body>
+</html>

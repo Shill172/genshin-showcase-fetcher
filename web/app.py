@@ -2,8 +2,12 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from src.showcase import build_showcase_text, build_showcase_data, DEFAULT_FIELDS
 from typing import Optional
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="web/static"), name="static")
 
 class CharacterData(BaseModel):
     name: str
@@ -30,10 +34,9 @@ class ShowcaseResponse(BaseModel):
     characters: list[CharacterData]
 
 
-
 @app.get("/")
-def hello_world():
-    return {"message": "Hello, World!"}
+def read_index():
+    return FileResponse("web/templates/index.html")
 
 @app.get("/showcase/{uid}", response_model=ShowcaseResponse, response_model_exclude_none=True)
 def get_showcase(uid: str):
