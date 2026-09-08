@@ -15,81 +15,104 @@
 
         <label>
             UID:
-            <input type="text" id="uid-input" name="uid">
+            <input type="text" id="uid-input" name="uid" placeholder="e.g. 618285856">
         </label>
 
-        <div class="checkbox-group">
+<div class="checkbox-group">
 
-            <label>
-                <input type="checkbox" name="level" value="level">
-                Level
-            </label>
+    <div class="checkbox-section">
+        <h3>Info</h3>
 
-            <label>
-                <input type="checkbox" name="constellation" value="constellation">
-                Constellation
-            </label>
+        <label>
+            <input type="checkbox" name="level" value="level">
+            Level
+        </label>
 
-            <label>
-                <input type="checkbox" name="weapon" value="weapon">
-                Weapon
-            </label>
+        <label>
+            <input type="checkbox" name="constellation" value="constellation">
+            Constellation
+        </label>
 
-            <label>
-                <input type="checkbox" name="artifact_set" value="artifact_set">
-                Artifact Set
-            </label>
+        <label>
+            <input type="checkbox" name="talents" value="talents">
+            Talents
+        </label>
+    </div>
 
-            <label>
-                <input type="checkbox" name="friendship" value="friendship">
-                Friendship
-            </label>
 
-            <label>
-                <input type="checkbox" name="talents" value="talents">
-                Talents
-            </label>
+    <div class="checkbox-section">
+        <h3>Gear</h3>
 
-            <label>
-                <input type="checkbox" name="hp" value="hp">
-                HP
-            </label>
+        <label>
+            <input type="checkbox" name="weapon" value="weapon">
+            Weapon
+        </label>
 
-            <label>
-                <input type="checkbox" name="atk" value="atk">
-                Attack
-            </label>
+        <label>
+            <input type="checkbox" name="artifact_set" value="artifact_set">
+            Artifact Set
+        </label>
+    </div>
 
-            <label>
-                <input type="checkbox" name="def" value="def">
-                Defense
-            </label>
 
-            <label>
-                <input type="checkbox" name="crit" value="crit">
-                Crit Rate / Crit Damage
-            </label>
+    <div class="checkbox-section">
+        <h3>Stats</h3>
 
-            <label>
-                <input type="checkbox" name="er" value="er">
-                Energy Recharge
-            </label>
+        <label>
+            <input type="checkbox" name="hp" value="hp">
+            HP
+        </label>
 
-            <label>
-                <input type="checkbox" name="em" value="em">
-                Elemental Mastery
-            </label>
+        <label>
+            <input type="checkbox" name="atk" value="atk">
+            Attack
+        </label>
 
-            <label>
-                <input type="checkbox" name="dmg_bonus" value="dmg_bonus">
-                Elemental/Physical Damage Bonus
-            </label>
+        <label>
+            <input type="checkbox" name="def" value="def">
+            Defense
+        </label>
 
-        </div>
+        <label>
+            <input type="checkbox" name="crit" value="crit">
+            Crit Rate / Crit Damage
+        </label>
+
+        <label>
+            <input type="checkbox" name="er" value="er">
+            Energy Recharge
+        </label>
+
+        <label>
+            <input type="checkbox" name="em" value="em">
+            Elemental Mastery
+        </label>
+
+        <label>
+            <input type="checkbox" name="dmg_bonus" value="dmg_bonus">
+            Elemental/Physical Damage Bonus
+        </label>
+    </div>
+
+
+    <div class="checkbox-section">
+        <h3>Other</h3>
+
+        <label>
+            <input type="checkbox" name="friendship" value="friendship">
+            Friendship
+        </label>
+    </div>
+
+</div>
 
         <button type="button" id="generate-btn">Generate Showcase</button>
 
     </form>
+
+    <h2>Preview</h2>
+
+    <textarea id="preview-box" rows="15" cols="60"></textarea>
 
     <script src="/static/script.js"></script>
 
