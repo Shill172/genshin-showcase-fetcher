@@ -13,7 +13,7 @@ DEFAULT_FIELDS = {
    "talents",
    "hp",
    "atk",
-   "def",
+   "defense",
    "crit",
    "er",
    "em",

@@ -161,7 +161,7 @@ def format_character(char, chars, loc, artifacts, fields, lang="en"):
     if "atk" in fields:
         data["atk"] = round(fight_map.get("2001", 0))
 
-    if "def" in fields:
+    if "defense" in fields:
         data["defense"] = round(fight_map.get("2002", 0))
 
     if "crit" in fields:
@@ -191,7 +191,7 @@ FIELD_LABELS = {
     "talents": "Talents {}",
     "hp": "HP {}",
     "atk": "ATK {}",
-    "def": "DEF {}",
+    "defense": "DEF {}",
     "crit": "CRIT {}",
     "er": "ER {}",
     "em": "EM {}",
