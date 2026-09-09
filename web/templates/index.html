@@ -3,116 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Character Fields</title>
+    <title>Genshin Showcase Fetcher</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 
 <body>
 
-    <h1>Character Fields</h1>
+    <div class="container">
+        <h1>Genshin Showcase Fetcher</h1>
 
-    <form id="showcase-form">
+        <p class="description">A tool for fetching Genshin Impact showcases in plain text format. Enter your UID, select the character info you wish to display, and press generate.</p>
 
-        <label>
-            UID:
-            <input type="text" id="uid-input" name="uid" placeholder="e.g. 618285856">
-        </label>
+        <form id="showcase-form">
 
-<div class="checkbox-group">
+            <div class="uid-group">
+                <h3><label for="uid-input">UID:</label></h3>
+                <input type="text" id="uid-input" name="uid" placeholder="e.g. 618285856">
+            </div>
 
-    <div class="checkbox-section">
-        <h3>Info</h3>
+            <div class="checkbox-group">
 
-        <label>
-            <input type="checkbox" name="level" value="level">
-            Level
-        </label>
+                <div class="checkbox-section">
+                    <h3>Info</h3>
 
-        <label>
-            <input type="checkbox" name="constellation" value="constellation">
-            Constellation
-        </label>
+                    <label>
+                        <input type="checkbox" name="level" value="level">
+                        Level
+                    </label>
 
-        <label>
-            <input type="checkbox" name="talents" value="talents">
-            Talents
-        </label>
+                    <label>
+                        <input type="checkbox" name="constellation" value="constellation">
+                        Constellation
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="talents" value="talents">
+                        Talents
+                    </label>
+                </div>
+
+                <div class="checkbox-section">
+                    <h3>Gear</h3>
+
+                    <label>
+                        <input type="checkbox" name="weapon" value="weapon">
+                        Weapon
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="artifact_set" value="artifact_set">
+                        Artifact Set
+                    </label>
+                </div>
+
+                <div class="checkbox-section">
+                    <h3>Stats</h3>
+
+                    <label>
+                        <input type="checkbox" name="hp" value="hp">
+                        HP
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="atk" value="atk">
+                        Attack
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="defense" value="defense">
+                        Defense
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="crit" value="crit">
+                        Crit Rate / Crit Damage
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="er" value="er">
+                        Energy Recharge
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="em" value="em">
+                        Elemental Mastery
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="dmg_bonus" value="dmg_bonus">
+                        Elemental/Physical Damage Bonus
+                    </label>
+                </div>
+
+                <div class="checkbox-section">
+                    <h3>Other</h3>
+
+                    <label>
+                        <input type="checkbox" name="friendship" value="friendship">
+                        Friendship
+                    </label>
+                </div>
+
+            </div>
+
+            <button type="button" id="generate-btn">Generate Showcase</button>
+
+        </form>
+
+        <h2>Preview</h2>
+
+        <textarea id="preview-box" rows="15" cols="60"></textarea>
     </div>
-
-
-    <div class="checkbox-section">
-        <h3>Gear</h3>
-
-        <label>
-            <input type="checkbox" name="weapon" value="weapon">
-            Weapon
-        </label>
-
-        <label>
-            <input type="checkbox" name="artifact_set" value="artifact_set">
-            Artifact Set
-        </label>
-    </div>
-
-
-    <div class="checkbox-section">
-        <h3>Stats</h3>
-
-        <label>
-            <input type="checkbox" name="hp" value="hp">
-            HP
-        </label>
-
-        <label>
-            <input type="checkbox" name="atk" value="atk">
-            Attack
-        </label>
-
-        <label>
-            <input type="checkbox" name="def" value="def">
-            Defense
-        </label>
-
-        <label>
-            <input type="checkbox" name="crit" value="crit">
-            Crit Rate / Crit Damage
-        </label>
-
-        <label>
-            <input type="checkbox" name="er" value="er">
-            Energy Recharge
-        </label>
-
-        <label>
-            <input type="checkbox" name="em" value="em">
-            Elemental Mastery
-        </label>
-
-        <label>
-            <input type="checkbox" name="dmg_bonus" value="dmg_bonus">
-            Elemental/Physical Damage Bonus
-        </label>
-    </div>
-
-
-    <div class="checkbox-section">
-        <h3>Other</h3>
-
-        <label>
-            <input type="checkbox" name="friendship" value="friendship">
-            Friendship
-        </label>
-    </div>
-
-</div>
-
-        <button type="button" id="generate-btn">Generate Showcase</button>
-
-    </form>
-
-    <h2>Preview</h2>
-
-    <textarea id="preview-box" rows="15" cols="60"></textarea>
 
     <script src="/static/script.js"></script>
 
