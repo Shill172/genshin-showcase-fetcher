@@ -3,6 +3,7 @@
 import requests
 import json
 import os
+from src.exceptions import ShowcaseNotFoundError, EnkaRequestError
 
 USER_AGENT = "genshin-showcase-fetcher"
 
@@ -12,9 +13,21 @@ def fetch_showcase(uid):
     headers = {"User-Agent": USER_AGENT}
     response = requests.get(url, headers=headers)
 
+    if response.status_code == 404:
+        raise ShowcaseNotFoundError(f"No showcase found for UID {uid}")
+
+    if response.status_code == 400:
+        raise EnkaRequestError(f"Invalid UID: {uid}")
+
     if response.status_code != 200:
-        raise Exception(f"Showcase request failed: {response.status_code}")
-    return response.json()
+        raise EnkaRequestError(f"Showcase request failed: {response.status_code}")
+
+    data = response.json()
+
+    if "avatarInfoList" not in data:
+        raise ShowcaseNotFoundError(f"UID {uid} has no public showcase")
+
+    return data
 
 
 def fetch_character_metadata(path="resources/charbyid.json"):

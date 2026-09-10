@@ -136,6 +136,11 @@ h2 {
     background: #1228b5;
 }
 
+#generate-btn:active {
+    transform: scale(0.98);
+    background: #0a1678;
+}
+
 #preview-box {
     display: block;
     width: 100%;

@@ -2,6 +2,7 @@ const generateBtn = document.getElementById("generate-btn");
 const uidInput = document.getElementById("uid-input");
 const showcaseForm = document.getElementById("showcase-form");
 const previewBox = document.getElementById("preview-box");
+const statusMessage = document.getElementById("status-message");
 
 let fetchedCharacters = null; 
 
@@ -20,6 +21,8 @@ const fieldLabels = {
     em: "EM {}",
     dmg_bonus: "{}"
 };
+
+const allFields = Object.keys(fieldLabels);
 
 const exampleCharacter = {
     name: "Amber",
@@ -79,33 +82,59 @@ showcaseForm.addEventListener("change", function (event) {
 });
 
 generateBtn.addEventListener("click", async function () {
+    generateBtn.disabled = true;
+    
     const uid = uidInput.value.trim();
 
-    if (!uid) {
-        alert("Please enter a valid UID");
+    if (!isValidUid(uid)) {
+        alert("Please enter a valid UID (9 or 10 digits, numbers only)");
+        generateBtn.disabled = false;
         return;
     }
 
-    const selectedFields = getSelectedFields();
+    // Send ALL field keys to the backend so it returns complete data
+    const allFields = Object.keys(fieldLabels);
 
-    const response = await fetch("/showcase", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            uid: uid,
-            fields: selectedFields
-        })
-    });
+    statusMessage.textContent = "Fetching showcase...";
 
-    const data = await response.json();
-    
-    fetchedCharacters = data.characters;
-    updatePreview();
+    try {
+        const response = await fetch("/showcase", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                uid: uid,
+                fields: allFields // Always request all fields
+            })
+        });
 
-    console.log("Got data back:", data);
+        const data = await response.json();
+
+        if (!response.ok) {
+            statusMessage.textContent = data.detail || "Something went wrong.";
+            statusMessage.className = "error";
+            return;
+        }
+
+        fetchedCharacters = data.characters;
+        updatePreview(); // Correctly formats based on currently checked boxes
+        statusMessage.textContent = "";
+        statusMessage.className = "";
+
+    } catch (error) {
+        statusMessage.textContent = "Could not reach the server.";
+        statusMessage.className = "error";
+
+    } finally {
+        generateBtn.disabled = false;
+    }
 });
+
+
+function isValidUid(uid) {
+    return /^\d{9,10}$/.test(uid);
+}
 
 
 updatePreview(); 
